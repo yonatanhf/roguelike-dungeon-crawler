@@ -1,0 +1,21 @@
+node_modules/
+dist/
+__pycache__/
+.pytest_cache/
+.venv/
+env/
+.env
+*.pyc
+.github/
+! .github/workflows/
+.DS_Store
+
+# Agentic Brain (Decoupled Service)
+agentic-brain/
+dungeon.db
+
+# Build artifacts
+frontend/node_modules/
+frontend/dist/
+backend/__pycache__/
+backend/.pytest_cache/
