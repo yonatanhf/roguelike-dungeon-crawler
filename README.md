@@ -71,3 +71,8 @@ This project is an open experiment and laboratory.
 *If you wish to use this codebase for a commercial or proprietary project, please open an issue to discuss a custom license.*
 
 *Join us in exploring the limits of the agentic world.*
+
+
+## Release and deployment
+
+See `docs/RELEASE_DEPLOYMENT_FLOW.md` for the component image release flow.

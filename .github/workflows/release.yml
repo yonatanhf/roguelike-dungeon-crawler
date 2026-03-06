@@ -1,0 +1,78 @@
+name: Roguelike Release Components
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: "Promotion target"
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+      version:
+        description: "Immutable component version (for example 0.3.0)"
+        required: true
+        type: string
+
+jobs:
+  release-guardrails:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate release units
+        run: ./scripts/validate-release-units.sh
+
+  publish-terminal:
+    runs-on: ubuntu-latest
+    needs: [release-guardrails]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate version format
+        run: |
+          [[ "${{ inputs.version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+            echo "version must match MAJOR.MINOR.PATCH" >&2
+            exit 1
+          }
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push terminal image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/roguelike-dungeon-crawler-terminal:${{ inputs.version }}
+            ghcr.io/${{ github.repository_owner }}/roguelike-dungeon-crawler-terminal:${{ github.sha }}
+
+  publish-brain:
+    runs-on: ubuntu-latest
+    needs: [release-guardrails]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push brain image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./agentic-brain
+          file: ./agentic-brain/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/roguelike-dungeon-crawler-brain:${{ inputs.version }}
+            ghcr.io/${{ github.repository_owner }}/roguelike-dungeon-crawler-brain:${{ github.sha }}

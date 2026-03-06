@@ -1,0 +1,9 @@
+apiVersion: qs/v1
+kind: AppContract
+name: roguelike-dungeon-crawler
+tier: B
+check: scripts/check.sh
+test: scripts/test.sh
+status: none
+deploy: inherited via downstream runtime manifests
+promote: .github/workflows/release.yml
