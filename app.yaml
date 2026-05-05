@@ -2,6 +2,14 @@ apiVersion: qs/v1
 kind: AppContract
 name: roguelike-dungeon-crawler
 tier: B
+platformLane: foundation
+deploymentClass: ordinary-app
+sloTier: bronze
+dataSensitivity: low
+sharedServices: auth,observability
+agentInferenceProfile: none
+artifactProfile: standard
+workloadIdentityProfile: required
 check: scripts/check.sh
 test: scripts/test.sh
 status: none

@@ -2,6 +2,13 @@
 
 Welcome to a new era of this project. What was once a legacy React 15 FCC dungeon crawler has been completely reborn as an **experimental laboratory for agentic endeavors**.
 
+## TODO: auth.qs Permission Migration
+
+- Adopt the generic `auth.qs` permission model used in SAE.
+- Prefer named permissions over app-local role checks for orchestration controls, admin actions, and security/audit views.
+- Carry resolved permissions and bounded operator identity through any hosted UI, API, or agent-triggered workflow that this project adds.
+- Keep project-specific permissions additive to the shared `resource:action` catalog instead of inventing a separate authorization model.
+
 ## 🧬 Why Start Again?
 
 The software landscape has fundamentally shifted. It is time to move beyond deterministic loops and embrace the **Agentic Idea**. This project is a "refresh" designed to explore how decentralized intelligence, memory enhancement, and autonomous orchestration can transform a simple game into a living, adapting environment.
